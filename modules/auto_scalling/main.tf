@@ -4,6 +4,7 @@ resource "aws_autoscaling_group" "webapp_asg" {
   min_size                  = var.asg_min_size
   health_check_grace_period = var.asg_health_grace_period
   health_check_type         = var.asg_health_check_type
+  load_balancers            = var.asg_lb
   desired_capacity          = var.asg_desired_capacity  
   force_delete              = var.asg_force_delete  
   launch_configuration      = var.asg_launch_configuration

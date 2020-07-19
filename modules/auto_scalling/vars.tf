@@ -14,6 +14,10 @@ variable "asg_health_grace_period" {
  default = 300
 }
 
+variable "asg_lb" {
+ default = []
+}
+
 variable "asg_health_check_type" {
  default = "ELB"
 }

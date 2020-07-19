@@ -27,6 +27,18 @@ module "test_attendance_security_group_rules_egress" {
   rule_sec_grp   = module.test_attendance_security_group.webapp_sec_grp_Id
 }
 
+module "test_attendance_load_balancer" {
+  source = "./modules/loadbalancing"
+  elb_name = "test_attendance_lb"
+  elb_security_groups = [ module.test_attendance_security_group.webapp_sec_grp_Id ]
+  elb_subnets = [module.subnet_private_a.webapp_subnet_Id, module.subnet_private_b.webapp_subnet_Id]
+  elb_cross_zone_load_balancing = true
+  elb_lb_port = 8081
+  elb_lb_protocol = "TCP"
+  elb_instance_port = 8081
+  elb_instance_protocol = "TCP"
+}
+
 module "test_attendance_lc" {
   source            = "./modules/launch_configuration"
   amis              = "ami-02d55cb47e83a99a0"
@@ -43,6 +55,7 @@ module "test_attendance_as" {
   asg_min_size             = 1
   asg_health_grace_period  = 300
   asg_health_check_type    = "EC2"
+  asg_lb                   = [ module.test_attendance_load_balancer.id ]
   asg_desired_capacity     = 1
   asg_force_delete         = true
   asg_launch_configuration = module.test_attendance_lc.webapp_lc
@@ -100,6 +113,18 @@ module "test_mysql_security_group_rules_egress" {
   rule_sec_grp   = module.test_mysql_security_group.webapp_sec_grp_Id
 }
 
+module "test_mysql_load_balancer" {
+  source = "./modules/loadbalancing"
+  elb_name = "test_mysql_lb"
+  elb_security_groups = [ module.test_mysql_security_group.webapp_sec_grp_Id ]
+  elb_subnets = [module.subnet_private_a.webapp_subnet_Id, module.subnet_private_b.webapp_subnet_Id]
+  elb_cross_zone_load_balancing = true
+  elb_lb_port = 3306
+  elb_lb_protocol = "TCP"
+  elb_instance_port = 3306
+  elb_instance_protocol = "TCP"
+}
+
 module "test_mysql_lc" {
   source            = "./modules/launch_configuration"
   amis              = "ami-02d55cb47e83a99a0"
@@ -117,6 +142,7 @@ module "test_mysql_asg" {
   asg_min_size             = 1
   asg_health_grace_period  = 300
   asg_health_check_type    = "EC2"
+  asg_lb                   = [ module.test_mysql_load_balancer.id ]
   asg_desired_capacity     = 1
   asg_force_delete         = true
   asg_launch_configuration = module.test_mysql_lc.webapp_lc
