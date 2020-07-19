@@ -55,7 +55,7 @@ module "test_attendance_as" {
   asg_min_size             = 1
   asg_health_grace_period  = 300
   asg_health_check_type    = "EC2"
-  asg_lb                   = [ module.test_attendance_load_balancer.id ]
+  asg_lb                   = [ module.test_attendance_load_balancer.webapp_elb.id ]
   asg_desired_capacity     = 1
   asg_force_delete         = true
   asg_launch_configuration = module.test_attendance_lc.webapp_lc
@@ -142,7 +142,7 @@ module "test_mysql_asg" {
   asg_min_size             = 1
   asg_health_grace_period  = 300
   asg_health_check_type    = "EC2"
-  asg_lb                   = [ module.test_mysql_load_balancer.id ]
+  asg_lb                   = [ module.test_mysql_load_balancer.webapp_elb.id ]
   asg_desired_capacity     = 1
   asg_force_delete         = true
   asg_launch_configuration = module.test_mysql_lc.webapp_lc
