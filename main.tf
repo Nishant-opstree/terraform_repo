@@ -12,13 +12,13 @@ provider "aws" {
 }
 module "vpc" {
   source       = "./modules/vpc"
-  vpc_cidr     = "10.3.0.0/16" 
+  vpc_cidr     = "10.1.0.0/16" 
   vpc_tag_name = "prod_webapp-vpc"
 }
 
 module "subnet_public_a" {
   source                   = "./modules/subnet"
-  subnet_cidr              = "10.3.0.0/24"
+  subnet_cidr              = "10.1.0.0/24"
   subnet_tag_name          = "prod_webapp-subnet-pub-a"
   subnet_availibility_zone = "aps1-az1"
   vpc_Id                   =  module.vpc.webapp_vpc_Id 
@@ -26,7 +26,7 @@ module "subnet_public_a" {
 
 module "subnet_public_b" {
   source                   = "./modules/subnet"
-  subnet_cidr              = "10.3.1.0/24"
+  subnet_cidr              = "10.1.1.0/24"
   subnet_tag_name          = "prod_webapp-subnet-pub-b"
   subnet_availibility_zone = "aps1-az3"
   vpc_Id                   =  module.vpc.webapp_vpc_Id 
@@ -34,7 +34,7 @@ module "subnet_public_b" {
 
 module "subnet_private_a" {
   source                   = "./modules/subnet"
-  subnet_cidr              = "10.3.2.0/24"
+  subnet_cidr              = "10.1.2.0/24"
   subnet_tag_name          = "prod_webapp-subnet-priv-a"
   subnet_availibility_zone = "aps1-az1"
   vpc_Id                   =  module.vpc.webapp_vpc_Id 
@@ -42,7 +42,7 @@ module "subnet_private_a" {
 
 module "subnet_private_b" {
   source                   = "./modules/subnet"
-  subnet_cidr              = "10.3.3.0/24"
+  subnet_cidr              = "10.1.3.0/24"
   subnet_tag_name          = "prod_webapp-subnet-priv-b"
   subnet_availibility_zone = "aps1-az3"
   vpc_Id                   =  module.vpc.webapp_vpc_Id 
@@ -57,14 +57,14 @@ module "igw" {
 module "nat_a" {
   source          = "./modules/nat"
   subnet_Id       = module.subnet_public_a.webapp_subnet_Id
-  elastic_Ip_name = "eip-03"
+  elastic_Ip_name = "eip-01"
   nat_tag_name    = "prod_webapp-nat-a"
 }
 
 module "nat_b" {
   source          = "./modules/nat"
   subnet_Id       = module.subnet_public_b.webapp_subnet_Id
-  elastic_Ip_name = "eip-04"
+  elastic_Ip_name = "eip-02"
   nat_tag_name    = "prod_webapp-nat-b"
 }
 
@@ -176,7 +176,7 @@ module "route_private_b" {
 module "route_old_vpc" {
   source                = "./modules/route"
   route_table_Id        = "rtb-0a9572691b623a772"
-  cidr_block            = "10.3.0.0/16"
+  cidr_block            = "10.1.0.0/16"
   peering_connection_Id = module.peering_connection.webapp_peering_conn_Id
 }
 
