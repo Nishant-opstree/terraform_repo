@@ -29,7 +29,7 @@ module "test_attendance_security_group_rules_egress" {
 
 module "test_attendance_load_balancer" {
   source = "./modules/loadbalancing"
-  elb_name = "test_attendance_lb"
+  elb_name = "testattendancelb"
   elb_security_groups = [ module.test_attendance_security_group.webapp_sec_grp_Id ]
   elb_subnets = [module.subnet_private_a.webapp_subnet_Id, module.subnet_private_b.webapp_subnet_Id]
   elb_cross_zone_load_balancing = true
@@ -115,7 +115,7 @@ module "test_mysql_security_group_rules_egress" {
 
 module "test_mysql_load_balancer" {
   source = "./modules/loadbalancing"
-  elb_name = "test_mysql_lb"
+  elb_name = "testmysqllb"
   elb_security_groups = [ module.test_mysql_security_group.webapp_sec_grp_Id ]
   elb_subnets = [module.subnet_private_a.webapp_subnet_Id, module.subnet_private_b.webapp_subnet_Id]
   elb_cross_zone_load_balancing = true
