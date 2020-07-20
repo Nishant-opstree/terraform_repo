@@ -3,6 +3,7 @@ resource "aws_elb" "webapp_elb" {
   security_groups           = var.elb_security_groups
   subnets                   = var.elb_subnets
   cross_zone_load_balancing = var.elb_cross_zone_load_balancing
+  internal                  = var.elb_internal
   
   listener {
     lb_port           = var.elb_lb_port

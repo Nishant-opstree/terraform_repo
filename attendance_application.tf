@@ -28,15 +28,16 @@ module "test_attendance_security_group_rules_egress" {
 }
 
 module "test_attendance_load_balancer" {
-  source = "./modules/loadbalancing"
-  elb_name = "testattendancelb"
-  elb_security_groups = [ module.test_attendance_security_group.webapp_sec_grp_Id ]
-  elb_subnets = [module.subnet_private_a.webapp_subnet_Id, module.subnet_private_b.webapp_subnet_Id]
+  source                        = "./modules/loadbalancing"
+  elb_name                      = "testattendancelb"
+  elb_security_groups           = [ module.test_attendance_security_group.webapp_sec_grp_Id ]
+  elb_subnets                   = [module.subnet_private_a.webapp_subnet_Id, module.subnet_private_b.webapp_subnet_Id]
   elb_cross_zone_load_balancing = true
-  elb_lb_port = 8081
-  elb_lb_protocol = "TCP"
-  elb_instance_port = 8081
-  elb_instance_protocol = "TCP"
+  elb_internal                  = true
+  elb_lb_port                   = 8081
+  elb_lb_protocol               = "TCP"
+  elb_instance_port             = 8081
+  elb_instance_protocol         = "TCP"
 }
 
 module "test_attendance_lc" {
@@ -119,6 +120,7 @@ module "test_mysql_load_balancer" {
   elb_security_groups = [ module.test_mysql_security_group.webapp_sec_grp_Id ]
   elb_subnets = [module.subnet_private_a.webapp_subnet_Id, module.subnet_private_b.webapp_subnet_Id]
   elb_cross_zone_load_balancing = true
+  elb_internal                  = true
   elb_lb_port = 3306
   elb_lb_protocol = "TCP"
   elb_instance_port = 3306

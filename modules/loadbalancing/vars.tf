@@ -10,6 +10,9 @@ variable "elb_subnets" {
 variable "elb_cross_zone_load_balancing" {
  default = true
 }
+variable "elb_internal" {
+ default = true
+}
 
 
 variable "elb_lb_port" {
