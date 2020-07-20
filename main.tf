@@ -190,3 +190,15 @@ module "instance_public_a" {
   instance_type     = "t2.micro"
   instance_tag_name = "test_bastion_instance"
 }
+
+module "name" {
+  source                = "./modules/s3bucket"
+  bucket_name           = "nishant-terraform-test-artifact"
+  versioning            = true
+  s3_algorithm          = "AES256"
+  dynamo_name           = "nishant-terraform-test-dynamo"
+  dynamo_billing_mode   = "PAY_PER_REQUEST"
+  dynamo_hash_key       = "LockID"
+  dynamo_attribute_name = "LockID"
+  dynamo_attribute_type = "S"
+}
