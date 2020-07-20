@@ -34,9 +34,9 @@ module "test_attendance_load_balancer" {
   elb_subnets = [module.subnet_private_a.webapp_subnet_Id, module.subnet_private_b.webapp_subnet_Id]
   elb_cross_zone_load_balancing = true
   elb_lb_port = 8081
-  elb_lb_protocol = "HTTP"
+  elb_lb_protocol = "TCP"
   elb_instance_port = 8081
-  elb_instance_protocol = "HTTP"
+  elb_instance_protocol = "TCP"
 }
 
 module "test_attendance_lc" {
