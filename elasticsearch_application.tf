@@ -27,6 +27,19 @@ module "test_elasticsearch_security_group_rules_egress" {
   rule_sec_grp   = module.test_elasticsearch_security_group.webapp_sec_grp_Id
 }
 
+module "test_elasticsearch_load_balancer" {
+  source                        = "./modules/loadbalancing"
+  elb_name                      = "testelasticsearchlb"
+  elb_security_groups           = [ module.test_elasticsearch_security_group.webapp_sec_grp_Id ]
+  elb_subnets                   = [module.subnet_private_a.webapp_subnet_Id, module.subnet_private_b.webapp_subnet_Id]
+  elb_cross_zone_load_balancing = true
+  elb_internal                  = true
+  elb_lb_port                   = 9200
+  elb_lb_protocol               = "TCP"
+  elb_instance_port             = 9200
+  elb_instance_protocol         = "TCP"
+}
+
 module "test_elasticsearch_lc" {
   source            = "./modules/launch_configuration"
   amis              = "ami-02d55cb47e83a99a0"
@@ -44,6 +57,7 @@ module "test_elasticsearch_asg" {
   asg_min_size             = 1
   asg_health_grace_period  = 300
   asg_health_check_type    = "EC2"
+  asg_lb                   = [ module.test_elasticsearch_load_balancer.webapp_elb.id ]
   asg_desired_capacity     = 1
   asg_force_delete         = true
   asg_launch_configuration = module.test_elasticsearch_lc.webapp_lc
